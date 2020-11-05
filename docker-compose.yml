@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  vyos1:
+    build: ./vyos/vyos1
+    privileged: true
+    container_name: vyos1
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    devices:
+      - /dev/net/tun
+    volumes:
+      - "/lib/modules:/lib/modules:ro" 
+      - "./vyos/vyos1/config.init:/config.init"
+      - "./config:/opt/vyatta/etc/config"
+    entrypoint:
+      - /sbin/init
+
+  vyos2:
+    build: ./vyos/vyos1
+    privileged: true
+    container_name: vyos2
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+    devices:
+      - /dev/net/tun
+    volumes:
+      - "/lib/modules:/lib/modules:ro" 
+      - "./vyos/vyos2/config.init:/config.init"
+      - "./config:/opt/vyatta/etc/config"
+    entrypoint:
+      - /sbin/init
