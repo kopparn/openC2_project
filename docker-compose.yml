@@ -34,3 +34,27 @@ services:
       - "./config:/opt/vyatta/etc/config"
     entrypoint:
       - /sbin/init
+
+  mail-server:
+    build: ./mail-server
+    privileged: true
+    container_name: mail-server
+    environment:
+      - ADMIN_USERNAME=root
+      - ADMIN_PASSWD=password
+      - DOMAINE_NAME=example.com
+      - USERS=user1:pass1,user2:pass2
+    volumes:
+      - "/data/ysql:/varlib/mysql"
+      - "/data/vmail/:/var/vmail"
+      - "/data/log:/var/log"
+    ports:
+      - "25:25"
+      - "80:80"
+      - "110:110"
+      - "143:143"
+      - "465:465"
+      - "993:993"
+      - "995:995"
+    entrypoint:
+      - /sbin/init
