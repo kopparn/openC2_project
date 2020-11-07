@@ -2,9 +2,9 @@
 
 ## Présentation du projet
 
-La capacité à réagir de manière rapide et efficace aux différentes attaques qui ciblentun système d’information  est  un  aspect  crucial  de  la  cybersécurité.  Tandis  que  la  détectiondes  événements  de sécuritédispose  d’outils  relativement  élaborés  tels  que  les  SIEM,  la  réactionaux  attaques,  qui  se concrétise  par  le  déploiement  de  contremesures, reste  bien  souvent  manuelle,  et  de  surcroît,  doit prendre en compte l’hétérogénéité des équipements (par exemple, des firewalls conçus par différents vendeurs).  
+La capacité à réagir de manière rapide et efficace aux différentes attaques qui ciblentun système d’information  est  un  aspect  crucial  de  la  cybersécurité.  Tandis  que  la  détectiondes  événements  de sécurité dispose  d’outils  relativement  élaborés  tels  que  les  SIEM,  la  réaction aux  attaques,  qui  se concrétise  par  le  déploiement  de  contremesures, reste  bien  souvent  manuelle,  et  de  surcroît,  doit prendre en compte l’hétérogénéité des équipements (par exemple, des firewalls conçus par différents vendeurs).  
   
-Pour  remédier partiellement à  cela,  l’initiative Open  Command  and  Control (OpenC2)du consortium OASIS propose un langage abstrait, indépendant des technologies sous-jacentes de chacun des   équipements   de   sécurité, permettant   d’homogénéiser et   d’accélérerle déploiement de contremesures.   
+Pour  remédier partiellement à  cela,  l’initiative Open  Command  and  Control (OpenC2) du consortium OASIS propose un langage abstrait, indépendant des technologies sous-jacentes de chacun des   équipements   de   sécurité, permettant   d’homogénéiser et   d’accélérer le déploiement de contremesures.   
   
 L'objectif de ce projet consiste à déployer une plateforme intégrant OpenC2 et permettant la reconfiguration d’un réseau.    
   
