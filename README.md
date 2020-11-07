@@ -1,6 +1,11 @@
-# Projet OpenC2
+# Intégration de OpenC2 pour la réponse à incidents
 
 ## Présentation du projet
+
+La capacité à réagir de manière rapide et efficace aux différentes attaques qui ciblentun système d’information  est  un  aspect  crucial  de  la  cybersécurité.  Tandis  que  la  détectiondes  événements  de sécuritédispose  d’outils  relativement  élaborés  tels  que  les  SIEM,  la  réactionaux  attaques,  qui  se concrétise  par  le  déploiement  de  contremesures, reste  bien  souvent  manuelle,  et  de  surcroît,  doit prendre en compte l’hétérogénéité des équipements (par exemple, des firewalls conçus par différents vendeurs).  
+Pour  remédier partiellement à  cela,  l’initiative Open  Command  and  Control (OpenC2)du consortium OASIS propose un langage abstrait, indépendant des technologies sous-jacentes de chacun des   équipements   de   sécurité, permettant   d’homogénéiser et   d’accélérerle déploiement de contremesures.    
+L'objectif de ce projet consiste à déployer une plateforme intégrant OpenC2 et permettant la reconfiguration d’un réseau.    
+Au cours de ce projet, une architecture et des scénarios de déploiement de contremesures seront définis avant d'implémenter la plateforme.
 
 ## Scénarios d'attaques justifiant la mise en place de contremesures
 
@@ -45,6 +50,18 @@ Suspicion d’altération d’une base de données, la réponse consiste à rét
     * Arguments : 1 start_time, 2 stop_time, 3 duration, 4 response_request,
     * Arguments spécifiques à l’Actuator Database : à définir
 * Traduction de la requête au niveau du proxy dans un script qui va établir une connexion SSH vers le serveur, rétablir la dernière version sauvegardée de la base de données avant l’injection sql, renvoyer un code retour au OpenC2 Message Fabric de la bonne exécution de la commande.
+
+## Présentation de l'architecture
+
+L’architecture va être basée sur l’utilisation des conteneurs à travers l’outils Docker.
+* La partie OpenC2 elle-même se trouvera dans un conteneur ou deux si l’on souhaite séparer le OpenC2 Message Fabric du proxy OpenC2. 
+* Les scénarios ou les scriptes d’attaque seront lancés à partir d’un conteneur ou l’on peut utiliser la distribution SELKS pour pouvoir utiliser les outils IDS si l’avancée du projet nous le permet pour la détection.
+* Nous trouverons ensuite pour la mise en œuvre des scénarios :
+  * Un conteneur serveur mail avec l’installation de Postfix, Dovecot, Rainloop pour les besoins du scénario et peut-être un antivirus pour la détection automatique si nous avons le temps.
+  * Un conteneur pour chaque routeur avec l’utilisation de routeurs virtualisés VyOS.
+  * Un conteneur avec un serveur web et une base de données Mysql.
+  
+![Schéma de l'architecture](SchémaV1.pdf)
 
 ## Mise en place de l'architecture
 
