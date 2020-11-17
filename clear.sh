@@ -5,7 +5,7 @@
 #Suppression des fichiers générés
 rm -rf ./vyos/rootfs
 rm -rf ./vyos/unsquashfs
-#rm -f ./vyos/vyos-latest.iso
+rm -f ./vyos/vyos-latest.iso
 rm -rf ./config
 
 #Suppression des conteneurs
