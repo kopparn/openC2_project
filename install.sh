@@ -52,3 +52,11 @@ docker exec -u 0 -it mail-server ip route del default
 docker exec -u 0 -it mail-server ip route add default via 172.30.0.2 dev eth1
 docker exec -u 0 -it mysql-server ip route del default
 docker exec -u 0 -it mysql-server ip route add default via 172.30.0.2 dev eth1
+
+#Mise en place de la base de donnée
+echo "LOADING DATABASE"
+docker exec -u 0 -it mysql-server sh -c "mysql -u root --password=toor < /tmp/my_database.sql"
+
+#Démarrage du serveur Apache2
+echo "LAUNCHING APACHE2 SERVER"
+docker exec -u 0 -it mysql-server sh -c "service apache2 restart" 
