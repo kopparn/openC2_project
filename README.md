@@ -66,10 +66,46 @@ L’architecture va être basée sur l’utilisation des conteneurs à travers l
   
 ![Schéma de l'architecture](SchémaV1.pdf)
 
-## Mise en place de l'architecture
+### Mise en place de l'architecture
 
-Le script install.sh, génére l'ensemble de l'architecture, start.sh démarre les conteneurs, stop.sh les stop et clear.sh supprime l'ensemble des conteneurs.
+**Prérequis :** Une distribution de Linux basée sur Debian avec une installation de Docker. 
 
-Les configurations initiales des routeurs peuvent être modifiées via les fichiers config.init.
+Le script install.sh, génère l'ensemble de l'architecture, start.sh démarre les conteneurs, stop.sh les stop et clear.sh supprime l'ensemble des conteneurs.
 
-On peut accéder aux routeurs via la commande docker-compose exec -u vyos vyos1 /bin/vbash
+Les différents dossiers nommés selon les conteneurs contiennent les fichiers de configuration des différents services présents sur ces mêmes conteneurs.  
+
+L'architecture est composée de cinq conteneurs docker :
+* *mysql-server* : contient une base de données MySQL ainsi qu'un serveur web Apache2 hébergeant un site web contenant des champs injectables
+* *vyos1* : routeur vyos
+* *vyos2* : routeur vyos
+* *mail-server* : contient un serveur mail
+* *client* : conteneur debian
+
+Le script met en place trois réseaux :
+* *local_1* : 172.30.0.0/16
+* *local_2* : 172.31.0.0/16
+* *public* : 172.32.0.0/16
+
+Le conteneur *mail-server* est connecté à local_1 à l'adresse 172.30.0.4 et *mysql_server* à l'adresse 172.30.0.3. Le conteneur *client* est connecté à *local_2* à l'adresse 172.31.0.3. Le conteneur *vyos1* (resp. *vyos2*) possède une interface connectée à *local_1* (resp. *local_2*) à l'adresse 172.30.0.2 (resp. 172.31.0.2) et une autre à *public* à l'adresse 172.32.0.2 (resp. 172.32.0.3).  
+
+La configuration initiale des deux routeurs vyos met en place un tunnel IP entre les deux routeurs sur le réseau *public* afin de permettre aux machines de *local_1* et *local_2* de communiquer via ce tunnel.
+
+### Accès aux différents conteneurs et à leurs services
+
+
+Accès aux routeurs :
+
+
+    docker-compose exec -u vyos vyos1 /bin/vbash 
+
+Accès au client :
+
+
+    docker-compose exec -u root client /bin/bash 
+
+Accès au serveur mysql :
+
+
+    docker-compose exec -u root mysql-server /bin/bash
+  
+Le site web hébergé par le serveur web est accessible à l'adresse http://localhost:8080.
