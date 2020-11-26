@@ -43,5 +43,4 @@ from . import custom
 
 from . import v10
 
-
 _collect_openc2_mappings()

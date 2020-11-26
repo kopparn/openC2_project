@@ -55,7 +55,10 @@ from .targets import (
 from .common import Payload
 from .args import Args, CustomArgs
 from .actuators import CustomActuator
-from .slpf import SLPFTarget, SLPFActuator, SLPFArgs
+from .slpf import SLPFTarget, SLPFActuator, SLPFArgs, SLPF
+from .db import DBTarget, DBActuator, DBArgs, DB
+from .mail import MAILTarget, MAILActuator, MAILArgs, MAIL
+from .router import ROUTERTarget, ROUTERActuator, ROUTERArgs, ROUTER
 
 OBJ_MAP = {"command": Command, "response": Response}
 
@@ -78,17 +81,41 @@ OBJ_MAP_TARGET = {
     "properties": Properties,
     "uri": URI,
     "slpf:rule_number": SLPFTarget,
+    "route:rule_number": ROUTERTarget,
+    "db:db_name": DBTarget,
+    "mail:identifier": MAILTarget,
+
 }
 
-OBJ_MAP_ACTUATOR = {"slpf": SLPFActuator}
+OBJ_MAP_ACTUATOR = {
+    "slpf": SLPFActuator,
+    "router": ROUTERActuator,
+    "mail": MAILActuator,
+    "db" : DBActuator,
+}
 
 OBJ_MAP_ARGS = {
     "args": Args,
 }
 
 EXT_MAP = {
-    "targets": {"slpf:rule_number": SLPFTarget},
-    "actuators": {"slpf": SLPFActuator},
-    "args": {"slpf": SLPFArgs},
+    "targets": {
+        "slpf:rule_number": SLPFTarget,
+        "router:rule_number": ROUTERTarget,
+        "db:db_name": DBTarget,
+        "mail:identifier": MAILTarget,
+    },
+    "actuators": {
+        "slpf": SLPFActuator,
+        "router": ROUTERActuator,
+        "db": DBActuator,
+        "mail": MAILActuator,
+    },
+    "args": {
+        "slpf": SLPFArgs,
+        "router": ROUTERArgs,
+        "db": DBArgs,
+        "mail": MAILArgs,
+    },
     "properties": {},
 }
