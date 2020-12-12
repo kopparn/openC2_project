@@ -64,7 +64,7 @@ L’architecture va être basée sur l’utilisation des conteneurs à travers l
   * Un conteneur pour chaque routeur avec l’utilisation de routeurs virtualisés VyOS.
   * Un conteneur avec un serveur web et une base de données Mysql.
   
-![Schéma de l'architecture](SchémaV1.pdf)
+![Schéma de l'architecture](./doc/SchémaV1.pdf)
 
 ### Mise en place de l'architecture
 

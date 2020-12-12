@@ -3,10 +3,10 @@
 ./stop.sh
 
 #Suppression des fichiers générés
-rm -rf ./vyos/rootfs
-rm -rf ./vyos/unsquashfs
-rm -f ./vyos/vyos-latest.iso
-rm -rf ./config
+rm -rf ./containers/vyos/rootfs
+rm -rf ./containers/vyos/unsquashfs
+rm -f ./containers/vyos/vyos-latest.iso
+rm -rf ./containers/config
 
 #Suppression des conteneurs
 docker container rm vyos1

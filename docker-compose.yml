@@ -2,7 +2,7 @@ version: '3'
 
 services:
   vyos1:
-    build: ./vyos/vyos1
+    build: ./containers/vyos/vyos1
     privileged: true
     container_name: vyos1
     cap_add:
@@ -13,13 +13,13 @@ services:
       - /dev/net/tun
     volumes:
       - "/lib/modules:/lib/modules:ro" 
-      - "./vyos/vyos1/config.init:/config.init"
+      - "./containers/vyos/vyos1/config.init:/config.init"
       - "./config:/opt/vyatta/etc/config"
     entrypoint:
       - /sbin/init
 
   vyos2:
-    build: ./vyos/vyos1
+    build: ./containers/vyos/vyos1
     privileged: true
     container_name: vyos2
     cap_add:
@@ -30,13 +30,13 @@ services:
       - /dev/net/tun
     volumes:
       - "/lib/modules:/lib/modules:ro" 
-      - "./vyos/vyos2/config.init:/config.init"
+      - "./containers/vyos/vyos2/config.init:/config.init"
       - "./config:/opt/vyatta/etc/config"
     entrypoint:
       - /sbin/init
 
   mail-server:
-    build: ./mail-server
+    build: ./containers/mail-server
     privileged: true
     container_name: mail-server
     cap_add:
@@ -62,7 +62,7 @@ services:
       - /sbin/init
     
   mysql-server:
-    build: ./mysql-server
+    build: ./containers/mysql-server
     privileged: true
     cap_add:
       - NET_ADMIN     
@@ -80,7 +80,7 @@ services:
       - "8081:8080"
 
   client:
-    build: ./client
+    build: ./containers/client
     container_name: client
     privileged: true
     cap_add:

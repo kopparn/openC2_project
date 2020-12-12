@@ -3,13 +3,13 @@
 #Création de l'image vyos
 echo "BUILDING VYOS IMAGE"
 sudo apt-get install -y squashfs-tools docker-compose wget
-mkdir ./vyos/unsquashfs
-mkdir ./vyos/rootfs
-wget -c https://downloads.vyos.io/rolling/current/amd64/vyos-rolling-latest.iso -O ./vyos/vyos-latest.iso
-sudo mount -o loop ./vyos/vyos-latest.iso ./vyos/rootfs
-unsquashfs -f -d ./vyos/unsquashfs/ ./vyos/rootfs/live/filesystem.squashfs
-tar -C ./vyos/unsquashfs -c . | docker import - vyos
-sudo umount ./vyos/rootfs
+mkdir ./containers/vyos/unsquashfs
+mkdir ./containers/vyos/rootfs
+wget -c https://downloads.vyos.io/rolling/current/amd64/vyos-rolling-latest.iso -O ./containers/vyos/vyos-latest.iso
+sudo mount -o loop ./containers/vyos/vyos-latest.iso ./containers/vyos/rootfs
+unsquashfs -f -d ./containers/vyos/unsquashfs/ ./containers/vyos/rootfs/live/filesystem.squashfs
+tar -C ./containers/vyos/unsquashfs -c . | docker import - vyos
+sudo umount ./containers/vyos/rootfs
 
 #Build des conteneurs
 echo "BUILDING CONTAINERS"
