@@ -1,4 +1,5 @@
-vyos/rooyfs
-vyos/unsquashfs
+containers/vyos/rooyfs
+containers/vyos/unsquashfs
 *.iso
 config
+*__pycache__
