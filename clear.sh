@@ -15,6 +15,7 @@ docker container rm mail-server
 docker container rm mysql-server
 docker container rm adminer
 docker container rm client
+docker container rm openc2-platform
 
 #Suppression des images
 docker rmi openc2_project_vyos1
@@ -26,6 +27,7 @@ docker rmi openc2_project_mysql-server
 docker rmi mysql
 docker rmi adminer
 docker rmi openc2_project_client
+docker rmi openc2_project_openc2-platform
 docker rmi debian
 
 #Suppression des réseaux

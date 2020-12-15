@@ -6,3 +6,4 @@ docker stop mail-server
 docker stop mysql-server
 docker stop adminer
 docker stop client
+docker stop openc2-platform

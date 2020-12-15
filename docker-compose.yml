@@ -62,7 +62,9 @@ services:
       - /sbin/init
     
   mysql-server:
-    build: ./containers/mysql-server
+    build:
+      context: .
+      dockerfile: ./containers/mysql-server/Dockerfile
     privileged: true
     cap_add:
       - NET_ADMIN     
@@ -82,6 +84,15 @@ services:
   client:
     build: ./containers/client
     container_name: client
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    entrypoint:
+      - /sbin/init
+
+  openc2-platform:
+    build: ./containers/openc2-platform
+    container_name: openc2-platform
     privileged: true
     cap_add:
       - NET_ADMIN
