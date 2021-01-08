@@ -12,3 +12,5 @@ RUN mkdir /etc/openc2-proxy
 COPY ./src/mysql-proxy /etc/openc2-proxy/mysql-proxy 
 COPY ./src/openc2 /etc/openc2-proxy/openc2
 COPY ./src/test.py /etc/openc2-proxy/test.py
+RUN mkdir /var/www/backups
+RUN chown -R www-data /var/www/backups
