@@ -1,5 +1,6 @@
 containers/vyos/rooyfs
 containers/vyos/unsquashfs
 *.iso
-config
+containers/vyos/vyos1/config
+containers/vyos/vyos2/config
 *__pycache__

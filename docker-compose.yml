@@ -14,12 +14,12 @@ services:
     volumes:
       - "/lib/modules:/lib/modules:ro" 
       - "./containers/vyos/vyos1/config.init:/config.init"
-      - "./config:/opt/vyatta/etc/config"
+      - "./containers/vyos/vyos1/config:/opt/vyatta/etc/config"
     entrypoint:
       - /sbin/init
 
   vyos2:
-    build: ./containers/vyos/vyos1
+    build: ./containers/vyos/vyos2
     privileged: true
     container_name: vyos2
     cap_add:
@@ -31,7 +31,7 @@ services:
     volumes:
       - "/lib/modules:/lib/modules:ro" 
       - "./containers/vyos/vyos2/config.init:/config.init"
-      - "./config:/opt/vyatta/etc/config"
+      - "./containers/vyos/vyos2/config:/opt/vyatta/etc/config"
     entrypoint:
       - /sbin/init
 

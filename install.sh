@@ -10,11 +10,25 @@ sudo mount -o loop ./containers/vyos/vyos-latest.iso ./containers/vyos/rootfs
 sudo unsquashfs -f -d ./containers/vyos/unsquashfs/ ./containers/vyos/rootfs/live/filesystem.squashfs
 tar -C ./containers/vyos/unsquashfs -c . | docker import - vyos
 sudo umount ./containers/vyos/rootfs
+echo "DONE"
+
+#Création des configurations vyos
+echo "COPYING VYOS CONFIGURATIONS"
+mkdir -p ./containers/vyos/vyos1/config
+cp ./containers/vyos/vyos1/config.init ./containers/vyos/vyos1/config/config.boot
+cp ./containers/vyos/vyos1/config.init ./containers/vyos/vyos1/config/default.config
+cp ./containers/vyos/vyos1/ipsec.config ./containers/vyos/vyos1/config/ipsec.config
+mkdir -p ./containers/vyos/vyos2/config
+cp ./containers/vyos/vyos2/config.init ./containers/vyos/vyos2/config/config.boot
+cp ./containers/vyos/vyos2/config.init ./containers/vyos/vyos2/config/default.config
+cp ./containers/vyos/vyos2/ipsec.config ./containers/vyos/vyos2/config/ipsec.config
+echo "DONE"
 
 #Build des conteneurs
 echo "BUILDING CONTAINERS"
 docker-compose build
 docker-compose up -d
+echo "DONE"
 
 #Creation des réseaux docker
 echo "NETWORKS CREATION"
@@ -32,6 +46,7 @@ docker network create \
 	--driver=bridge \
 	--subnet=172.32.0.0/16 \
 	public
+echo "DONE"
 
 #Connexion des conteneurs
 echo "CONTAINERS CONNECTION"
@@ -49,23 +64,31 @@ docker network connect --ip 172.31.0.2 local_2 vyos2
 docker network connect --ip 172.31.0.3 local_2 client
 docker network connect --ip 172.32.0.2 public vyos1
 docker network connect --ip 172.32.0.3 public vyos2
+echo "DONE"
 
 #Configuration des gateways
 echo "GATEWAYS CONFIGURATION"
 sleep 30
 docker exec -u 0 -it client ip route del default
 docker exec -u 0 -it client ip route add default via 172.31.0.2 dev eth1
+docker exec -u 0 -it client ip route del 172.31.0.0/16
 docker exec -u 0 -it mail-server ip route del default
 docker exec -u 0 -it mail-server ip route add default via 172.30.0.2 dev eth1
+docker exec -u 0 -it mail-server ip route del 172.30.0.0/16
 docker exec -u 0 -it mysql-server ip route del default
 docker exec -u 0 -it mysql-server ip route add default via 172.30.0.2 dev eth1
+docker exec -u 0 -it mysql-server ip route del 172.30.0.0/16
 docker exec -u 0 -it openc2-platform ip route del default
 docker exec -u 0 -it openc2-platform ip route add default via 172.30.0.2 dev eth1
+docker exec -u 0 -it openc2-platform ip route del 172.30.0.0/16
+echo "DONE"
 
 #Mise en place de la base de donnée
 echo "LOADING DATABASE"
 docker exec -u 0 -it mysql-server sh -c "mysql -u root --password=toor < /tmp/my_database.sql"
+echo "DONE"
 
 #Démarrage du serveur Apache2
 echo "LAUNCHING APACHE2 SERVER"
 docker exec -u 0 -it mysql-server sh -c "service apache2 restart" 
+echo "DONE"

@@ -1,6 +1,6 @@
 FROM mysql
 RUN apt-get update
-RUN apt-get install -y iproute2 apache2 php libapache2-mod-php php-cli php-mysql vim python3 python3-pip
+RUN apt-get install -y iproute2 iputils-ping apache2 php libapache2-mod-php php-cli php-mysql vim python3 python3-pip
 RUN pip3 install stix2
 RUN service apache2 restart
 COPY ./containers/mysql-server/web-server/index.html /var/www/html/index.html
