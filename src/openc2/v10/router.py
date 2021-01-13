@@ -59,9 +59,12 @@ class ROUTERActuator(openc2.base._Actuator):
 
 
 class ROUTERTarget(openc2.base._Target):
-    _type = "router:rule_number"
+    _type = "ipsec_targets"
     _properties = OrderedDict(
-        [("rule_number", openc2.properties.StringProperty(required=True)),]
+        [
+            ("addr1", openc2.properties.StringProperty(required=True)),
+            ("addr2", openc2.properties.StringProperty(required=True)),
+        ]
     )
 
 
@@ -93,7 +96,7 @@ class ROUTER(openc2.base._OpenC2Base):
     )
 
     def check_object_constraints(self):
-        super(SLPF, self).check_object_constraints()
+        super(ROUTER, self).check_object_constraints()
         if not isinstance(self.target, openc2.base._Target) or not self.target.type in [
             "features",
             "file",
@@ -101,9 +104,9 @@ class ROUTER(openc2.base._OpenC2Base):
             "ipv6_net",
             "ipv4_connection",
             "ipv6_connection",
-            "router:rule_number",
+            "ipsec_targets",
             "uri",
         ]:
             raise ValueError("Unsupported target (%s)" % self.target)
-        if "actuator" in self and not isinstance(self.actuator, SLPFActuator):
+        if "actuator" in self and not isinstance(self.actuator, ROUTERActuator):
             raise ValueError("Unsupported actuator (%s)" % self.actuator._type)

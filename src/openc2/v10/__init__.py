@@ -81,7 +81,7 @@ OBJ_MAP_TARGET = {
     "properties": Properties,
     "uri": URI,
     "slpf:rule_number": SLPFTarget,
-    "route:rule_number": ROUTERTarget,
+    "ipsec_targets": ROUTERTarget,
     "db:db_name": DBTarget,
     "mail:identifier": MAILTarget,
 
@@ -101,7 +101,7 @@ OBJ_MAP_ARGS = {
 EXT_MAP = {
     "targets": {
         "slpf:rule_number": SLPFTarget,
-        "router:rule_number": ROUTERTarget,
+        "ipsec_targets": ROUTERTarget,
         "db:db_name": DBTarget,
         "mail:identifier": MAILTarget,
     },

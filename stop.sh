@@ -8,4 +8,5 @@ docker stop mysql-server
 docker stop adminer
 docker stop client
 docker stop openc2-platform
+docker stop vyos-proxy
 echo "DONE"

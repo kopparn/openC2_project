@@ -8,6 +8,7 @@ docker start mysql-server
 docker start adminer
 docker start client
 docker start openc2-platform
+docker start vyos-proxy
 
 echo "CONFIGURING GATEWAYS"
 sleep 30
@@ -19,6 +20,9 @@ docker exec -u 0 -it mysql-server ip route del default
 docker exec -u 0 -it mysql-server ip route add default via 172.30.0.2 dev eth1
 docker exec -u 0 -it openc2-platform ip route del default
 docker exec -u 0 -it openc2-platform ip route add default via 172.30.0.2 dev eth1
+docker exec -u 0 -it vyos-proxy ip route del default
+docker exec -u 0 -it vyos-proxy ip route add default via 172.30.0.2 dev eth1
 
 echo "STARTING APACHE SERVER"
 docker exec -u 0 -it mysql-server sh -c "service apache2 restart"
+docker exec -u 0 -it vyos-proxy sh -c "service apache2 restart"

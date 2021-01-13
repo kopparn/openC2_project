@@ -91,10 +91,23 @@ services:
       - /sbin/init
 
   openc2-platform:
-    build: ./containers/openc2-platform
+    build: 
+      context: .
+      dockerfile: ./containers/openc2-platform/Dockerfile
     container_name: openc2-platform
     privileged: true
     cap_add:
       - NET_ADMIN
     entrypoint:
       - /sbin/init
+
+  vyos-proxy:
+    build:
+      context: .
+      dockerfile: ./containers/vyos-proxy/Dockerfile
+    container_name: vyos-proxy
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    entrypoint:
+     - /sbin/init  

@@ -6,7 +6,7 @@
 echo "REMOVING GENERATED FILES"
 rm -rf ./containers/vyos/rootfs
 rm -rf ./containers/vyos/unsquashfs
-rm -f ./containers/vyos/vyos-latest.iso
+#rm -f ./containers/vyos/vyos-latest.iso
 rm -rf ./containers/vyos/vyos1/config
 rm -rf ./containers/vyos/vyos2/config
 echo "DONE"
@@ -20,6 +20,7 @@ docker container rm mysql-server
 docker container rm adminer
 docker container rm client
 docker container rm openc2-platform
+docker container rm vyos-proxy
 echo "DONE"
 
 #Suppression des images
@@ -34,6 +35,7 @@ docker rmi mysql
 docker rmi adminer
 docker rmi openc2_project_client
 docker rmi openc2_project_openc2-platform
+docker rmi openc2_project_vyos-proxy
 docker rmi debian
 echo "DONE"
 

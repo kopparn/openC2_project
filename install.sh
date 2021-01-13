@@ -60,6 +60,7 @@ docker network connect --ip 172.30.0.2 local_1 vyos1
 docker network connect --ip 172.30.0.3 local_1 mysql-server
 docker network connect --ip 172.30.0.4 local_1 mail-server
 docker network connect --ip 172.30.0.5 local_1 openc2-platform
+docker network connect --ip 172.30.0.6 local_1 vyos-proxy
 docker network connect --ip 172.31.0.2 local_2 vyos2
 docker network connect --ip 172.31.0.3 local_2 client
 docker network connect --ip 172.32.0.2 public vyos1
@@ -81,6 +82,9 @@ docker exec -u 0 -it mysql-server ip route del 172.30.0.0/16
 docker exec -u 0 -it openc2-platform ip route del default
 docker exec -u 0 -it openc2-platform ip route add default via 172.30.0.2 dev eth1
 docker exec -u 0 -it openc2-platform ip route del 172.30.0.0/16
+docker exec -u 0 -it vyos-proxy ip route del default
+docker exec -u 0 -it vyos-proxy ip route add default via 172.30.0.2 dev eth1
+docker exec -u 0 -it vyos-proxy ip route del 172.30.0.0/16
 echo "DONE"
 
 #Mise en place de la base de donnée
@@ -89,6 +93,7 @@ docker exec -u 0 -it mysql-server sh -c "mysql -u root --password=toor < /tmp/my
 echo "DONE"
 
 #Démarrage du serveur Apache2
-echo "LAUNCHING APACHE2 SERVER"
+echo "LAUNCHING APACHE2 SERVERS"
 docker exec -u 0 -it mysql-server sh -c "service apache2 restart" 
+docker exec -u 0 -it vyos-proxy sh -c "service apache2 restart" 
 echo "DONE"
