@@ -97,3 +97,17 @@ echo "LAUNCHING APACHE2 SERVERS"
 docker exec -u 0 -it mysql-server sh -c "service apache2 restart" 
 docker exec -u 0 -it vyos-proxy sh -c "service apache2 restart" 
 echo "DONE"
+
+#Génération des clés ssh
+echo "CREATING AND EXCHANGING VYOS-PROXY SSH KEYS"
+docker exec -u 0 -it vyos-proxy sh -c "mkdir /root/.ssh"
+docker exec -u 0 -it vyos-proxy sh -c "(cd /root/.ssh; ssh-keygen -q -t rsa -f id_rsa -C '' -N '')"
+docker cp vyos-proxy:/root/.ssh/id_rsa.pub ./id_rsa.pub
+docker exec -u vyos -it vyos1 sh -c "mkdir -p /home/vyos/.ssh"
+docker cp ./id_rsa.pub vyos1:/home/vyos/.ssh/id_rsa.pub
+docker exec -u vyos -it vyos1 sh -c "cat /home/vyos/.ssh/id_rsa.pub >> /home/vyos/.ssh/authorized_keys"
+docker exec -u vyos -it vyos2 sh -c "mkdir -p /home/vyos/.ssh"
+docker cp ./id_rsa.pub vyos2:/home/vyos/.ssh/id_rsa.pub
+docker exec -u vyos -it vyos2 sh -c "cat /home/vyos/.ssh/id_rsa.pub >> /home/vyos/.ssh/authorized_keys"
+rm -f id_rsa.pub
+echo "DONE"

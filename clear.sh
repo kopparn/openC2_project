@@ -6,7 +6,7 @@
 echo "REMOVING GENERATED FILES"
 rm -rf ./containers/vyos/rootfs
 rm -rf ./containers/vyos/unsquashfs
-#rm -f ./containers/vyos/vyos-latest.iso
+rm -f ./containers/vyos/vyos-latest.iso
 rm -rf ./containers/vyos/vyos1/config
 rm -rf ./containers/vyos/vyos2/config
 echo "DONE"
