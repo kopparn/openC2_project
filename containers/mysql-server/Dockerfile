@@ -9,7 +9,7 @@ COPY ./containers/mysql-server/web-server/openc2.php /var/www/html/openc2.php
 COPY ./containers/mysql-server/my.cnf /etc/mysql/my.cnf
 COPY ./containers/mysql-server/my_database.sql /tmp/my_database.sql
 RUN mkdir /etc/openc2-proxy
-COPY ./src/mysql-proxy /etc/openc2-proxy/mysql-proxy 
+COPY ./src/mysql-proxy /etc/openc2-proxy/src 
 COPY ./src/openc2 /etc/openc2-proxy/openc2
 COPY ./src/test.py /etc/openc2-proxy/test.py
 RUN mkdir /var/www/backups

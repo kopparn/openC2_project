@@ -100,9 +100,10 @@ echo "DONE"
 
 #Génération des clés ssh
 echo "CREATING AND EXCHANGING VYOS-PROXY SSH KEYS"
-docker exec -u 0 -it vyos-proxy sh -c "mkdir /root/.ssh"
-docker exec -u 0 -it vyos-proxy sh -c "(cd /root/.ssh; ssh-keygen -q -t rsa -f id_rsa -C '' -N '')"
-docker cp vyos-proxy:/root/.ssh/id_rsa.pub ./id_rsa.pub
+docker exec -u 0 -it vyos-proxy sh -c "mkdir -p /var/www/.ssh"
+docker exec -u 0 -it vyos-proxy sh -c "chown -R www-data /var/www/.ssh"
+docker exec -u www-data -it vyos-proxy sh -c "(cd /var/www/.ssh; ssh-keygen -q -t rsa -f id_rsa -C '' -N '')"
+docker cp vyos-proxy:/var/www/.ssh/id_rsa.pub ./id_rsa.pub
 docker exec -u vyos -it vyos1 sh -c "mkdir -p /home/vyos/.ssh"
 docker cp ./id_rsa.pub vyos1:/home/vyos/.ssh/id_rsa.pub
 docker exec -u vyos -it vyos1 sh -c "cat /home/vyos/.ssh/id_rsa.pub >> /home/vyos/.ssh/authorized_keys"

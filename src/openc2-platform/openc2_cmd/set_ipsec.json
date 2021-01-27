@@ -1,0 +1,1 @@
+{"action": "set","target": {"ipsec_targets":{"addr1":"172.30.0.2","addr2":"172.31.0.2"}},"args":{"shared_secret":"secret","ike_hash":"md5","ike_encryption":"aes256","esp_hash":"md5","esp_encryption":"aes256"}}

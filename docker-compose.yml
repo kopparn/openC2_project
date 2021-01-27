@@ -44,7 +44,7 @@ services:
     environment:
       - ADMIN_USERNAME=root
       - ADMIN_PASSWD=password
-      - DOMAINE_NAME=localhost
+      - DOMAINE_NAME=172.30.0.4
       - USERS=user1:pass1,user2:pass2
     volumes:
       - "/data/ysql:/varlib/mysql"

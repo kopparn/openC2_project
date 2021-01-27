@@ -29,16 +29,54 @@ def main():
     gateway = subprocess.Popen("ip route | grep default | cut -f3 -d' '", shell=True, stdout=subprocess.PIPE).communicate()[0].strip().decode('ascii')
     if addr1 == gateway :
         addr1, addr2 = addr2,addr1
+    try :
+        ike_encryption = msg["args"]["ike_encryption"] 
+    except :
+        ike_encryption = "aes128"
+    try :
+        ike_hash = msg["args"]["ike_hash"]
+    except :
+        ike_hash = "sha1"
+    try :
+        esp_encryption = msg["args"]["esp_encryption"]
+    except :
+        esp_encryption = "aes128"
+    try :
+        esp_hash = msg["args"]["esp_hash"] 
+    except :
+        esp_hash = "sha1"
+    try :
+        shared_secret = msg["args"]["shared_secret"]
+    except :
+        shared_secret = "secret"
     if action == "start" :
-        cmd1 = "ssh vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/start_ipsec.sh"
-        cmd2 = "ssh vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/start_ipsec.sh"
+        cmd1 = "ssh -o StrictHostKeyChecking=no vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/start_ipsec.sh"
+        cmd2 = "ssh -o StrictHostKeyChecking=no vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/start_ipsec.sh"
         os.system(cmd1)
         os.system(cmd2)
     elif action == "stop" :
-        cmd1 = "ssh vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/stop_ipsec.sh"
-        cmd2 = "ssh vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/stop_ipsec.sh"
+        cmd1 = "ssh -o StrictHostKeyChecking=no vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/stop_ipsec.sh"
+        cmd2 = "ssh -o StrictHostKeyChecking=no vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/stop_ipsec.sh"
         os.system(cmd1)
         os.system(cmd2)
+    elif action == "create" :
+        cmd1 = "ssh -o StrictHostKeyChecking=no vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/create_ipsec.sh " + shared_secret + " " + ike_hash + " " + ike_encryption + " " + esp_hash + " " + esp_encryption
+        cmd2 = "ssh -o StrictHostKeyChecking=no vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/create_ipsec.sh " + shared_secret + " " + ike_hash + " " + ike_encryption + " " + esp_hash + " " + esp_encryption
+        cmd3 = "ssh -o StrictHostKeyChecking=no vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/save_config.sh"
+        cmd4 = "ssh -o StrictHostKeyChecking=no vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/save_config.sh"
+        os.system(cmd1)
+        os.system(cmd2)
+        os.system(cmd3)
+        os.system(cmd4)
+    elif action == "set" :
+        cmd1 = "ssh -o StrictHostKeyChecking=no vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/set_ipsec.sh " + shared_secret + " " + ike_hash + " " + ike_encryption + " " + esp_hash + " " + esp_encryption
+        cmd2 = "ssh -o StrictHostKeyChecking=no vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/set_ipsec.sh " + shared_secret + " " + ike_hash + " " + ike_encryption + " " + esp_hash + " " + esp_encryption
+        cmd3 = "ssh -o StrictHostKeyChecking=no vyos@" + addr1 +  " 'bash -s' < /etc/openc2-proxy/src/save_config.sh"
+        cmd4 = "ssh -o StrictHostKeyChecking=no vyos@" + addr2 +  " 'bash -s' < /etc/openc2-proxy/src/save_config.sh"
+        os.system(cmd1)
+        os.system(cmd2)
+        os.system(cmd3)
+        os.system(cmd4)
 
 if __name__ == '__main__':
     main()

@@ -72,7 +72,12 @@ class ROUTERArgs(openc2.base._OpenC2Base):
     _type = "router"
     _properties = OrderedDict(
         [
-            ("insert_rule", openc2.properties.IntegerProperty()),
+            ("shared_secret", openc2.properties.StringProperty()),
+            ("ike_hash", openc2.properties.StringProperty()),
+            ("ike_encryption", openc2.properties.StringProperty()),
+            ("shared_secret", openc2.properties.StringProperty()),
+            ("esp_hash", openc2.properties.StringProperty()),
+            ("esp_encryption", openc2.properties.StringProperty()),
         ]
     )
 

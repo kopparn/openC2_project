@@ -1,6 +1,6 @@
 #!/bin/vbash
 
-pkill --signal HUP sshd
+sudo pkill --signal HUP sshd
 
 newgrp vyattacfg
 

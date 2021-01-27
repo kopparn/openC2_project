@@ -1,22 +1,28 @@
 import stix2
-import requests
+import http.client
 import sys
+import os
 sys.path.append("/etc/openc2-platform")
 import openc2
 import json
+import subprocess
+import socket
+import requests
 
 def main():
-    cmd = openc2.v10.DB(
-            action="delete",
-            target=openc2.v10.DBTarget(db_name="my_database"),
-            args=openc2.v10.Args(response_requested="complete"),
-    )
-    msg = cmd.serialize()
+    ms = sys.stdin
+    msg = json.load(ms)
+    openc2_cmd = openc2.parse(msg)
+    openc2_cmd.check_object_constraints()
+    try:
+        msg["target"]["db:db_name"]
+        target = "172.30.0.3" 
+    except:
+        target = "172.30.0.6"
+    msg = openc2_cmd.serialize()
     headers = {'content-type': 'application/json'}
-    response = requests.post('http://172.30.0.3:80/openc2.php', data=msg, headers=headers)
+    response = requests.post('http://' + target + ':80/openc2.php', data=msg, headers=headers)
     print(response.json)
-    #cmd = openc2.parse(msg)
-    #print(cmd)
 
 if __name__ == '__main__':
     main()

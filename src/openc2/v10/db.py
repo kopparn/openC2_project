@@ -58,7 +58,7 @@ class DBArgs(openc2.base._OpenC2Base):
     _type = "db"
     _properties = OrderedDict(
         [
-            ("backup_name", openc2.properties.StringProperty()),
+            ("date", openc2.properties.StringProperty()),
         ]
     )
 
