@@ -21,7 +21,7 @@ def main():
         target = "172.30.0.6"
     msg = openc2_cmd.serialize()
     headers = {'content-type': 'application/json'}
-    response = requests.post('http://' + target + ':80/openc2.php', data=msg, headers=headers)
+    response = requests.post('https://' + target + ':443/openc2.php', data=msg, headers=headers, verify=False)
     print(response.json)
 
 if __name__ == '__main__':

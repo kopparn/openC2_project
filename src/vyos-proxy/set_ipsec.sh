@@ -1,19 +1,24 @@
 #!/bin/vbash
 
-pkill --signal HUP sshd
+sudo pkill --signal HUP sshd
 
-newgrp vyattacfg
+echo "#!/bin/vbash" > config_ipsec.sh
 
-source /opt/vyatta/etc/functions/script-template
+echo "newgrp vyattacfg" >> config_ipsec.sh
 
-configure
-load ipsec.config
-set vpn ipsec ike-group MyIKEGroup proposal 1 encryption $3
-set vpn ipsec ike-group MyIKEGroup proposal 1 hash $2
-set vpn ipsec esp-group MyESPGroup proposal 1 encryption $5
-set vpn ipsec esp-group MyESPGroup proposal 1 hash $4
-commit
-save ipsec.config
-load
-commit
-save
+echo "source /opt/vyatta/etc/functions/script-template" >> config_ipsec.sh
+
+
+echo "configure" >> config_ipsec.sh
+echo "load ipsec.config" >> config_ipsec.sh
+echo "set vpn ipsec ike-group MyIKEGroup proposal 1 encryption $3" >> config_ipsec.sh
+echo "set vpn ipsec ike-group MyIKEGroup proposal 1 hash $2" >> config_ipsec.sh
+echo "set vpn ipsec esp-group MyESPGroup proposal 1 encryption $5" >> config_ipsec.sh
+echo "set vpn ipsec esp-group MyESPGroup proposal 1 hash $4" >> config_ipsec.sh
+echo "commit" >> config_ipsec.sh
+echo "sleep 30" >> config_ipsec.sh
+echo "save ipsec.config" >> config_ipsec.sh
+
+chmod 755 config_ipsec.sh
+/bin/vbash config_ipsec.sh
+exit

@@ -74,6 +74,7 @@ services:
       - MYSQL_ROOT_PASSWORD=toor
     ports:
       - "8080:80"
+      - "4443:443"
 
   adminer:
     image: adminer

@@ -95,7 +95,20 @@ echo "DONE"
 #Démarrage du serveur Apache2
 echo "LAUNCHING APACHE2 SERVERS"
 docker exec -u 0 -it mysql-server sh -c "service apache2 restart" 
-docker exec -u 0 -it vyos-proxy sh -c "service apache2 restart" 
+docker exec -u 0 -it mysql-server sh -c "sleep 30"
+docker exec -u 0 -it mysql-server sh -c "a2enmod ssl" 
+docker exec -u 0 -it mysql-server sh -c "a2ensite default-ssl" 
+docker exec -u 0 -it mysql-server sh -c "service apache2 reload" 
+docker exec -u 0 -it vyos-proxy sh -c "service apache2 restart"
+docker exec -u 0 -it vyos-proxy sh -c "sleep 30" 
+docker exec -u 0 -it vyos-proxy sh -c "a2enmod ssl" 
+docker exec -u 0 -it vyos-proxy sh -c "a2ensite default-ssl" 
+docker exec -u 0 -it vyos-proxy sh -c "service apache2 reload"
+docker cp mysql-server:/etc/ssl/certs/ssl-cert-snakeoil.pem ./ssl-cert-mysql-server.pem
+docker cp vyos-proxy:/etc/ssl/certs/ssl-cert-snakeoil.pem ./ssl-cert-vyos-proxy.pem
+docker cp ./ssl-cert-mysql-server.pem openc2-platform:/etc/ssl/certs/ssl-cert-mysql-server.pem
+docker cp ./ssl-cert-vyos-proxy.pem openc2-platform:/etc/ssl/certs/ssl-cert-vyos-proxy.pem
+rm -f *.pem
 echo "DONE"
 
 #Génération des clés ssh
@@ -112,3 +125,8 @@ docker cp ./id_rsa.pub vyos2:/home/vyos/.ssh/id_rsa.pub
 docker exec -u vyos -it vyos2 sh -c "cat /home/vyos/.ssh/id_rsa.pub >> /home/vyos/.ssh/authorized_keys"
 rm -f id_rsa.pub
 echo "DONE"
+
+docker exec -u 0 -it vyos1 sh -c "chgrp vyattacfg /opt/vyatta/etc/config/default.config"
+docker exec -u 0 -it vyos1 sh -c "chgrp vyattacfg /opt/vyatta/etc/config/ipsec.config"
+docker exec -u 0 -it vyos2 sh -c "chgrp vyattacfg /opt/vyatta/etc/config/default.config"
+docker exec -u 0 -it vyos2 sh -c "chgrp vyattacfg /opt/vyatta/etc/config/ipsec.config" 
